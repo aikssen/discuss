@@ -17,23 +17,28 @@
 
   <body>
     <header class="header">
-      <nav role="navigation">
-        <ul class="nav nav-pills pull-right">
-          <li><a href="/">Get Started</a></li>
-        </ul>
+      <nav>
+        <div class="nav-wrapper">
+          <a href="/" class="brand-logo">Get Started</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <%= if @conn.assigns[:user] do %>
+              <%= link "Sign out", to: auth_path(@conn, :signout) %>
+            <% else %>
+              <li>
+                <%= link "Sign in with github", to: auth_path(@conn, :request, "github") %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
       </nav>
       <!--<span class="logo"></span>-->
     </header>
     <div class="container">
-      
-
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
-
     </div> <!-- /container -->
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
